@@ -50,6 +50,7 @@ services:
       tarefa1network:
         ipv4_address: 192.168.0.2
     command: ndb_mgmd
+    #docker container exec -it management1 ndb_mgm   <-- para entrar no mangager dos clusters mysql
   mysqlNode1:
     image: container-registry.oracle.com/mysql/community-cluster
     container_name: mysqlNode1
@@ -71,14 +72,19 @@ services:
       tarefa1network:
         ipv4_address: 192.168.0.10
     command: mysqld
+    ports:
+      - "3306:3306"
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_ROOT_HOST=%
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: tim
+      MYSQL_PASSWORD: tim
+
   #docker logs mysqlServer 2>&1 | grep PASSWORD
   #docker exec -it mysqlServer mysql -uroot -p
-  #GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
 
-
+  #CREATE USER 'tim'@'%' IDENTIFIED BY 'tim';
+  #GRANT ALL PRIVILEGES ON *.* TO 'tim'@'%';
+  #FLUSH PRIVILEGES;
   webserver:
     image: "nginx"
     container_name: container-nginx-tarefa1
@@ -88,7 +94,8 @@ services:
       - ./nginx:/etc/nginx/conf.d
     command: [nginx-debug, '-g', 'daemon off;']
     networks:
-      - tarefa1network
+      tarefa1network:
+        ipv4_address: 192.168.0.14
     depends_on:
       - "tarefa1_8080"
       - "tarefa1_8081"
