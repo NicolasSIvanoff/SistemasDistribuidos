@@ -72,10 +72,13 @@ services:
       tarefa1network:
         ipv4_address: 192.168.0.10
     command: mysqld
+    volumes:
+      - "./script/script.sql:/docker-entrypoint-initdb.d/1.sql"
     ports:
       - "3306:3306"
     environment:
-      MYSQL_RANDOM_ROOT_PASSWORD: true
+      MYSQL_ROOT_PASSWORD: root
+  #    MYSQL_RANDOM_ROOT_PASSWORD: true
   # necessario realizar os passos abaixo (primeiro inicia os nodos musql, conecta no servidor central e cira o usuario tim e da todas permissoes
   # docker compose up management1 mysqlNode1 mysqlNode2 mysqlServer -d
   # docker logs mysqlServer 2>&1 | grep PASSWORD
