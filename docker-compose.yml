@@ -75,13 +75,11 @@ services:
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: tim
-      MYSQL_PASSWORD: tim
-
-  #docker logs mysqlServer 2>&1 | grep PASSWORD
-  #docker exec -it mysqlServer mysql -uroot -p
-
+      MYSQL_RANDOM_ROOT_PASSWORD: true
+  # necessario realizar os passos abaixo (primeiro inicia os nodos musql, conecta no servidor central e cira o usuario tim e da todas permissoes
+  # docker compose up management1 mysqlNode1 mysqlNode2 mysqlServer -d
+  # docker logs mysqlServer 2>&1 | grep PASSWORD
+  # docker exec -it mysqlServer mysql -uroot -p
   #CREATE USER 'tim'@'%' IDENTIFIED BY 'tim';
   #GRANT ALL PRIVILEGES ON *.* TO 'tim'@'%';
   #FLUSH PRIVILEGES;
